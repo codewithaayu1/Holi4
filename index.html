@@ -1,1 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Holi | Aayu</title>
 
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Segoe UI,sans-serif}
+
+body{
+height:100vh;
+overflow:hidden;
+background:linear-gradient(120deg,#ff4e50,#fc913a,#f9d423,#24c6dc);
+background-size:300% 300%;
+animation:bg 10s ease infinite;
+display:flex;
+justify-content:center;
+align-items:center;
+color:white;
+}
+
+@keyframes bg{
+0%{background-position:0% 50%}
+50%{background-position:100% 50%}
+100%{background-position:0% 50%}
+}
+
+.container{
+background:rgba(255,255,255,0.15);
+backdrop-filter:blur(15px);
+padding:30px;
+border-radius:20px;
+text-align:center;
+box-shadow:0 10px 40px rgba(0,0,0,0.3);
+width:90%;
+max-width:400px;
+}
+
+h1{
+font-size:32px;
+margin-bottom:10px;
+}
+
+p{
+font-size:15px;
+opacity:0.9;
+}
+
+button{
+margin-top:15px;
+padding:10px 20px;
+border:none;
+border-radius:25px;
+background:white;
+color:#ff4e50;
+font-weight:bold;
+cursor:pointer;
+transition:0.3s;
+}
+
+button:hover{
+transform:scale(1.1);
+}
+
+#countdown{
+margin-top:10px;
+font-size:14px;
+}
+
+canvas{
+position:absolute;
+top:0;
+left:0;
+pointer-events:none;
+}
+
+.footer{
+position:fixed;
+bottom:10px;
+font-size:14px;
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="splash"></canvas>
+
+<div class="container">
+<h1>🎨 Happy Holi 🎉</h1>
+<p>AARE YAAR ABHI CHHOTA SA WEB DEVELOPER HU JUST TRY KIYA HAI TECNICAL TARIKE SE WISH KARNA I WISH ACHHA LGA HOGA </p>
+
+<div id="countdown"></div>
+
+<button onclick="share()">📲 Share on WhatsApp</button>
+</div>
+
+<div class="footer">
+💻 Aapke Friend Web Developer <b>Aayu</b> ki or se ❤️
+</div>
+
+<script>
+/* Canvas Splash Effect */
+const canvas=document.getElementById("splash");
+const ctx=canvas.getContext("2d");
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+
+let particles=[];
+
+document.addEventListener("click",e=>{
+for(let i=0;i<500;i++){
+particles.push({
+x:e.clientX,
+y:e.clientY,
+radius:Math.random()*6+2,
+color:`hsl(${Math.random()*360},100%,50%)`,
+speedX:(Math.random()-0.5)*6,
+speedY:(Math.random()-0.5)*6,
+life:100
+});
+}
+});
+
+function animate(){
+ctx.clearRect(0,0,canvas.width,canvas.height);
+particles.forEach((p,i)=>{
+ctx.beginPath();
+ctx.arc(p.x,p.y,p.radius,0,Math.PI*2);
+ctx.fillStyle=p.color;
+ctx.fill();
+p.x+=p.speedX;
+p.y+=p.speedY;
+p.life--;
+if(p.life<=0) particles.splice(i,1);
+});
+requestAnimationFrame(animate);
+}
+animate();
+
+/* Countdown */
+let holi=new Date("March 14, 2026 00:00:00").getTime();
+setInterval(()=>{
+let now=new Date().getTime();
+let d=holi-now;
+let days=Math.floor(d/(1000*60*60*24));
+let hours=Math.floor((d%(1000*60*60*24))/(1000*60*60));
+let minutes=Math.floor((d%(1000*60*60))/(1000*60));
+let seconds=Math.floor((d%(1000*60))/1000);
+document.getElementById("countdown").innerHTML=
+`⏳ ${days}d ${hours}h ${minutes}m ${seconds}s left`;
+},1000);
+
+/* WhatsApp Share */
+function share(){
+let msg="Happy Holi 🎨💦 Aapko Web Developer Aayu ki or se!";
+window.open("https://wa.me/?text="+encodeURIComponent(msg));
+}
+</script>
+
+</body>
+                               </html>
